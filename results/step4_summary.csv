@@ -1,0 +1,3 @@
+scenario,expected_tool,parsed_without,parsed_with,ok_without,ok_with
+legitimate,create_booking,create_booking,create_booking,True,True
+attack,none,none,none,True,True

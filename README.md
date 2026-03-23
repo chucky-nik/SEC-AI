@@ -1,4 +1,4 @@
-# DefensiveTokens Local Experiments (Code-Only)
+# DefensiveTokens Local Experiments
 
 Локальный набор скриптов для проверки DefensiveTokens в 3 сценариях:
 
@@ -34,13 +34,13 @@ python -m pip install torch transformers
 2) Собрать лёгкую модель с 5 токенами (Qwen2.5-1.5B):
 
 ```bash
-python Код/setup_qwen25_1_5b_defensive_tokens.py
+python scr/setup_qwen25_1_5b_defensive_tokens.py
 ```
 
 3) Базовый sanity-check with/without:
 
 ```bash
-python Код/run_experiment.py \
+python scr/run_experiment.py \
   --model "../DefensiveToken-main/Qwen/Qwen2.5-1.5B-Instruct-5DefensiveTokens" \
   --device cpu --dtype float16 --max_new_tokens 16
 ```
@@ -50,7 +50,7 @@ python Код/run_experiment.py \
 Быстрый контраст easy+hard (индексы `0,5`):
 
 ```bash
-python Код/step3_asr_alpaca_farm.py \
+python scr/step3_asr_alpaca_farm.py \
   --model "../DefensiveToken-main/Qwen/Qwen2.5-1.5B-Instruct-5DefensiveTokens" \
   --data_mode synthetic_demo --synthetic_tier all --synthetic_indices 0,5 \
   --asr_criterion substring --max_new_tokens 24 \
@@ -61,7 +61,7 @@ python Код/step3_asr_alpaca_farm.py \
 Medium-срез (стресс-тест атакуемости):
 
 ```bash
-python Код/step3_asr_alpaca_farm.py \
+python scr/step3_asr_alpaca_farm.py \
   --model "../DefensiveToken-main/Qwen/Qwen2.5-1.5B-Instruct-5DefensiveTokens" \
   --data_mode synthetic_demo --synthetic_tier medium --num_samples 0 \
   --asr_criterion substring --max_new_tokens 32 \
@@ -72,7 +72,7 @@ python Код/step3_asr_alpaca_farm.py \
 ## Эксперимент 2: AlpacaFarm-Hacked
 
 ```bash
-python Код/step3_asr_alpaca_farm.py \
+python scr/step3_asr_alpaca_farm.py \
   --model "../DefensiveToken-main/Qwen/Qwen2.5-1.5B-Instruct-5DefensiveTokens" \
   --data_mode alpaca --attack straightforward_before \
   --num_samples 20 --require_nonempty_input \
@@ -84,7 +84,7 @@ python Код/step3_asr_alpaca_farm.py \
 ## Эксперимент 3: Tool-call (InjecAgent-like)
 
 ```bash
-python Код/step4_injecagent_like_toolcall.py \
+python scr/step4_injecagent_like_toolcall.py \
   --model "../DefensiveToken-main/Qwen/Qwen2.5-1.5B-Instruct-5DefensiveTokens" \
   --scenario both --max_new_tokens 128 \
   --device cpu --dtype float16 \
@@ -97,7 +97,7 @@ python Код/step4_injecagent_like_toolcall.py \
 `instruction`, `data`, `base_response`.
 
 ```bash
-python Код/finetune_defensive_embeddings.py \
+python scr/finetune_defensive_embeddings.py \
   --model "../DefensiveToken-main/Qwen/Qwen2.5-1.5B-Instruct-5DefensiveTokens" \
   --data "data/defensive_dataset.jsonl" \
   --max_samples 256 --epochs 1 --lr 0.1 \
@@ -109,11 +109,11 @@ python Код/finetune_defensive_embeddings.py \
 
 ## Структура кода
 
-- `Код/run_experiment.py` — базовое with/without сравнение ответа.
-- `Код/step3_asr_alpaca_farm.py` — ASR на Alpaca и synthetic (`easy/hard/medium`).
-- `Код/step4_injecagent_like_toolcall.py` — agent tool-call сценарий A/B.
-- `Код/setup_qwen25_1_5b_defensive_tokens.py` — сборка Qwen2.5-1.5B + 5 токенов.
-- `Код/finetune_defensive_embeddings.py` — SGD только по 5 строкам эмбеддингов.
-- `Код/device_utils.py` — единый выбор `auto -> cuda/mps/cpu` и dtype.
+- `scr/run_experiment.py` — базовое with/without сравнение ответа.
+- `scr/step3_asr_alpaca_farm.py` — ASR на Alpaca и synthetic (`easy/hard/medium`).
+- `scr/step4_injecagent_like_toolcall.py` — agent tool-call сценарий A/B.
+- `scr/setup_qwen25_1_5b_defensive_tokens.py` — сборка Qwen2.5-1.5B + 5 токенов.
+- `scr/finetune_defensive_embeddings.py` — SGD только по 5 строкам эмбеддингов.
+- `scr/device_utils.py` — единый выбор `auto -> cuda/mps/cpu` и dtype.
 
 

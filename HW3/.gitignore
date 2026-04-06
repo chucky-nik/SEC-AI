@@ -1,0 +1,11 @@
+results/run_*.csv
+!results/run_labeled.csv
+!results/run_labeled_summary.json
+!results/run_labeled_summary.html
+
+results/*.log
+
+защита/МЕТОДИКА_И_РЕЗУЛЬТАТЫ.md
+
+# macOS
+.DS_Store

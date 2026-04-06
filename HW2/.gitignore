@@ -13,3 +13,6 @@ outputs/
 tmp/
 *.pt
 *.bin
+
+# macOS
+.DS_Store
